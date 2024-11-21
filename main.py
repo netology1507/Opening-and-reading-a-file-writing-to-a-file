@@ -60,3 +60,35 @@ if __name__ == '__main__':
     main()
 
 
+import os
+
+def merge_files_sorted_by_line_count(input_file_names, output_file_name):
+    file_info = []
+
+    for file_name in input_file_names:
+        with open(file_name, 'r', encoding='utf-8') as f:
+            lines = f.readlines()
+            line_count = len(lines)
+            file_info.append((file_name, line_count, lines))
+
+    # Сортируем файлы по количеству строк
+    file_info.sort(key=lambda x: x[1])
+
+    with open(output_file_name, 'w', encoding='utf-8') as result_file:
+        for file_name, line_count, lines in file_info:
+            result_file.write(f"{file_name}\n{line_count}\n")  # Записываем имя файла и количество строк
+            result_file.writelines(lines)  # Записываем содержимое файла
+    
+    print(f"Файлы успешно объединены в {output_file_name}")
+
+def main():
+    # Список файлов для объединения
+    input_file_names = ['1.txt', '2.txt']
+    output_file_name = 'result.txt'
+    
+    merge_files_sorted_by_line_count(input_file_names, output_file_name)
+
+if __name__ == '__main__':
+    main()
+
+
