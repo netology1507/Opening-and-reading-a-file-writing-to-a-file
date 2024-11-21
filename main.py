@@ -28,6 +28,35 @@ def main():
     for dish, ingredients in cook_book.items():
         print(f"{dish}:\n{ingredients}")
 
+def get_shop_list_by_dishes(cook_book, dishes, person_count):
+    shopping_list = {}
+    for dish in dishes:
+        if dish not in cook_book:
+            continue
+        for ingredient in cook_book[dish]:
+            name = ingredient['ingredient_name']
+            quantity = ingredient['quantity'] * person_count
+            measure = ingredient['measure']
+            if name in shopping_list:
+                shopping_list[name]['quantity'] += quantity
+            else:
+                shopping_list[name] = {'measure': measure, 'quantity': quantity}
+    return shopping_list
+
+
+def main():
+    file_path = 'recipes.txt'
+    lines = read_recipes_from_file(file_path)
+    cook_book = parse_cookbook(file_path)
+    dish_list = ['Запеченный картофель', 'Омлет']
+    person_count = 2
+    shopping_list = get_shop_list_by_dishes(cook_book, dish_list, person_count)
+    for dish, ingredients in cook_book.items():
+        print(f"{dish}:\n{ingredients}")
+    for ingredient, details in shopping_list.items():
+        print(f"{ingredient}: {details}")    
+     
 if __name__ == '__main__':
     main()
+
 
